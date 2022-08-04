@@ -9,20 +9,20 @@
 Более подробно c методологией можно ознакомиться по [ссылке](https://feature-sliced.design/).
 
 ## Технологический стэк
+- `Node.js` `16.13.2`
 - Бэкенд:
     - `fastify` (http-server)
     - `socket.io` (websockets)
     - `typescript`
 - Фронтенд:
     - *****
-- Пакетный менеджер: `pnpm`
+- Пакетный менеджер: `pnpm` `6.11.0`
 
 ## Старт проекта
-В `packages/backend` и `packages/frontend` переименовать `.env.example` в `.env`
+В `packages/backend` `.env.example` в `.env`
 
 ```sh
 # В консоли запустить установку зависимостей и старт проекта
 pnpm i
 pnpm dev
 ```
-После установки и запуска можно тестировать работу фронтенда.
