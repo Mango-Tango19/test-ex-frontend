@@ -3,7 +3,7 @@
   "compilerOptions": {
     "baseUrl": "./packages",
     "paths": {
-      "@app/frontend": ["frontend/src"],
+      "@app/frontend": ["packages/frontend/src"],
       "@app/backend": ["backend/src"],
       "@app/types": ["types/src"],
       "@app/*": ["*/src"]
@@ -11,3 +11,4 @@
     "noEmit": true
   }
 }
+ы
