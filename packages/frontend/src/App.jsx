@@ -3,6 +3,8 @@ import Grid from "@mui/material/Grid";
 import Dashboard from "./components/dashboard/Dashboard";
 import Sidebar from './components/sidebar/Sidebar'
 import Paper from '@mui/material/Paper';
+import Experiments from "./components/experiments/Experiments";
+import SingleExperiment from "./components/single-experiment/Single-experiment";
 
 function App() {
   return (
@@ -18,8 +20,8 @@ function App() {
         <Grid item xs={10}>
           <Routes>
             <Route path='/' element={<Dashboard />} />
-            {/* <Route path='experiment/*' element={<Experiments />} />
-            <Route path='experiment/:id' element={<SingleExperiment />} /> */}
+            <Route path='experiment/*' element={<Experiments />} />
+            <Route path='experiment/:id' element={<SingleExperiment />} />
           </Routes>
         </Grid>
       </Grid>
