@@ -13,11 +13,11 @@ function App() {
       p: 2,
     }}
   >
-      <Grid container spacing={1}>
-        <Grid item xs={2}>
+      <Grid container  sx={{ height: '100vh' }}>
+        <Grid item xs={12} md={3} pr={2}>
           <Sidebar />
         </Grid>
-        <Grid item xs={10}>
+        <Grid item xs={12} md={9} p={2} sx={{ background: 'rgba(0, 0, 0, 0.05);', borderRadius: '10px' }}>
           <Routes>
             <Route path='/' element={<Dashboard />} />
             <Route path='experiment/*' element={<Experiments />} />

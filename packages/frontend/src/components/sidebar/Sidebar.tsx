@@ -14,7 +14,6 @@ const Sidebar = () => {
 	return (
 		<Box
 			sx={{
-				minHeight: "100vh",
 				display: "grid",
 				gridTemplateColumns: "1fr",
 				gridTemplateRows: "1fr 2fr",

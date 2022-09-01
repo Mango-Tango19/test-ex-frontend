@@ -6,7 +6,6 @@ import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Link } from "react-router-dom";
 import "./Experiments.css";
@@ -57,7 +56,7 @@ const ExperimentCard = React.memo(({ cardDate }) => {
 				</Typography>
 			</CardContent>
 			<CardActions>
-				<Link to='/experiments/1' className='card_link'>
+				<Link to="3" className='card_link'>
 					Подробнее
 				</Link>
 			</CardActions>
@@ -74,17 +73,14 @@ const Experiments = () => {
 	};
 
 	const handleSearch = (term) => {
+  
 		
-
 		if (term.length === 0) {
 			return experiments;
 		}
-
-		return cards.filter((card) => {
+		return experiments.filter((card) => {
 			return card.label.toLowerCase().indexOf(term.toLowerCase()) > -1;
 		});
-
-	
 	};
 
 	React.useEffect(() => {
