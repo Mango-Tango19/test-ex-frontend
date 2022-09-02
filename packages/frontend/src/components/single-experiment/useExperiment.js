@@ -18,10 +18,11 @@ const initialState = {
 	data: [],
 	loading: true,
 	error: false,
+	collectedData: [],
 };
 
 const reducer = (state, action) => {
-	//console.log(`Action: ${action.type}; Payload:`, action.payload);
+	console.log(`Action: ${action.type}; Payload:`, action.payload);
 	switch (action.type) {
 		case "toggle_request": {
 			return {
@@ -44,6 +45,14 @@ const reducer = (state, action) => {
 			};
 		}
 
+		case "send_collected_data": {
+			return {
+				...state,
+				collectedData: [...state.collectedData, action.payload],
+				data: [],
+			};
+		}
+
 		case "request_stop": {
 			return {
 				...state,
@@ -56,39 +65,53 @@ const reducer = (state, action) => {
 export const useExperiment = () => {
 	const [state, dispatch] = useReducer(reducer, initialState);
 
-	const getData = () => {
+	//	let timer;
+
+	const startInterval = () => {
+		let collectedData = [];
 		socket.on("message", (data) => {
 			if (data.source === "server" && data.cmd === "data") {
-				dispatch({ type: "request_success", payload: data });
+				collectedData.push(data);
 			}
 		});
+
+		timer = setInterval(() => {
+			console.log("timeout start");
+			dispatch({ type: "send_collected_data", payload: collectedData });
+		}, 3000);
 	};
+
+	const stopInterval = () => {
+		console.log("timeout end");
+		clearInterval(timer);
+	};
+
+	useEffect(() => {
+		if (state.isSending) {
+			performRequest();
+			startInterval();
+		} else {
+			stopRequest();
+			stopInterval();
+		}
+	}, [state.isSending]);
 
 	const performRequest = useCallback(() => {
 		socket.emit("message", { cmd: "test:start", source: "client" });
 		dispatch({ type: "request_start" });
-		console.log("Test started");
-		getData();
+		//console.log("Test started");
 	});
 
 	const stopRequest = useCallback(() => {
 		socket.emit("message", { cmd: "test:stop", source: "client" });
 		dispatch({ type: "request_stop" });
-		console.log("Test stopped");
+		//console.log("Test stopped");
 	});
 
 	const toggleRequest = useCallback(
 		() => dispatch({ type: "toggle_request" }),
 		[]
 	);
-
-	useEffect(() => {
-		if (state.isSending) {
-			performRequest();
-		} else {
-			stopRequest();
-		}
-	}, [state.isSending]);
 
 	return { state, toggleRequest };
 };
