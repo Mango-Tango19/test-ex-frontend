@@ -5,6 +5,9 @@ import { styled } from "@mui/material/styles";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import { useExperiment } from "./useExperiment";
+import { useState } from "react";
+import { useEffect } from "react";
+
 
 const Item = styled(Paper)(({ theme }) => ({
 	...theme.typography.body2,
@@ -16,10 +19,22 @@ const Item = styled(Paper)(({ theme }) => ({
 	minHeight: "250px",
 }));
 
+
+
 const SingleExperiment = () => {
 	const { state, toggleRequest } = useExperiment();
 
-	console.log(state.data);
+    const { isSending, collectedData } = state
+
+	console.log({collectedData})
+
+	//const [ experimentData, setExperimentData ] = useState([])
+
+	// useEffect(() => {
+
+	// 	setExperimentData((prev) => ([...prev, collectedData]))
+
+	// }, collectedData)
 
 	const handleClick = () => {
 		toggleRequest();
@@ -29,12 +44,19 @@ const SingleExperiment = () => {
 		<Grid container rowSpacing={3} columnSpacing={3}>
 			<Grid xs={12} md={12} item>
 				<Button variant='outlined' onClick={handleClick}>
-					{state.isSending ? "Стоп" : "Старт"}
+					{isSending ? "Стоп" : "Старт"}
 				</Button>
+               
 			</Grid>
 	
 			<Grid xs={12} md={6} item>
-				<Item>Логи приходящих данных</Item>
+				{/* <Item>{
+					experimentData.length === 0 ? 
+						 'лог приходящих данных' : experimentData.map((item) => {
+							return <span> {item} </span>
+						})
+					}</Item> */}
+					<Item></Item>
 			</Grid>
 			<Grid xs={12} md={6} item>
 				<Item>Табличная часть эксперимента</Item>

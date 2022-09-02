@@ -34,7 +34,7 @@ const experiments = [
 	},
 	{
 		id: 5,
-		label: "Shiseido Ceramospher and Chiral",
+		label: "Shiseido Ceramospher",
 		descriotion: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
 	},
 	{
