@@ -2,12 +2,11 @@ import * as React from "react";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
-import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import { useExperiment } from "./useExperiment";
-import { useState } from "react";
-import { useEffect } from "react";
+import LogsTable from "../logs-table/LogsTable";
 
+import TableData from "../table/TableData";
 
 const Item = styled(Paper)(({ theme }) => ({
 	...theme.typography.body2,
@@ -19,25 +18,20 @@ const Item = styled(Paper)(({ theme }) => ({
 	minHeight: "250px",
 }));
 
-
-
 const SingleExperiment = () => {
 	const { state, toggleRequest } = useExperiment();
 
-    const { isSending, collectedData } = state
+	const { isSending, collectedData, realtimeData } = state;
 
-	console.log({collectedData})
-
-	//const [ experimentData, setExperimentData ] = useState([])
-
-	// useEffect(() => {
-
-	// 	setExperimentData((prev) => ([...prev, collectedData]))
-
-	// }, collectedData)
+	console.log({ realtimeData });
+	console.log({ collectedData });
 
 	const handleClick = () => {
 		toggleRequest();
+	};
+
+	const ItemWrapper = (props) => {
+		return collectedData.length === 0 ? props.message : props.component;
 	};
 
 	return (
@@ -46,26 +40,34 @@ const SingleExperiment = () => {
 				<Button variant='outlined' onClick={handleClick}>
 					{isSending ? "Стоп" : "Старт"}
 				</Button>
-               
-			</Grid>
-	
-			<Grid xs={12} md={6} item>
-				{/* <Item>{
-					experimentData.length === 0 ? 
-						 'лог приходящих данных' : experimentData.map((item) => {
-							return <span> {item} </span>
-						})
-					}</Item> */}
-					<Item></Item>
 			</Grid>
 			<Grid xs={12} md={6} item>
-				<Item>Табличная часть эксперимента</Item>
+				<ItemWrapper
+					message={<Item>Таблица</Item>}
+					component={
+						<Item>
+							<TableData data={collectedData} />
+						</Item>
+					}
+				/>
 			</Grid>
-		
-            <Grid xs={12} item>
-				<Item>График</Item>
+			<Grid xs={12} md={6} item>
+				<ItemWrapper
+					message={<Item>Логи данных</Item>}
+					component={<Item>
+						<LogsTable data={realtimeData}/>
+					</Item>}
+				/>
 			</Grid>
-            {/* <Grid xs={12} item>
+
+			<Grid xs={12} item>
+				<ItemWrapper
+					message={<Item>График</Item>}
+					component={<Item>Component</Item>}
+				/>
+			</Grid>
+
+			{/* <Grid xs={12} item>
 				<Item>Будущий результат</Item>
 			</Grid> */}
 		</Grid>

@@ -15,10 +15,9 @@ socket.on("disconnecting", function (data) {
 const initialState = {
 	isSending: false,
 	status: "idle",
-	data: [],
-	loading: true,
-	error: false,
 	collectedData: [],
+	dataToSend: [],
+	realtimeData: [],
 };
 
 const reducer = (state, action) => {
@@ -37,19 +36,17 @@ const reducer = (state, action) => {
 			};
 		}
 
-		case "request_success": {
-			return {
-				...state,
-				status: "work",
-				data: [...state.data, ...action.payload],
-			};
-		}
-
 		case "send_collected_data": {
 			return {
 				...state,
-				collectedData: [...state.collectedData, ...action.payload],
-				data: [],
+				collectedData: action.payload,
+			};
+		}
+
+		case "send_realtime_data": {
+			return {
+				...state,
+				realtimeData: [...state.realtimeData, action.payload],
 			};
 		}
 
@@ -71,12 +68,12 @@ export const useExperiment = () => {
 		let collectedData = [];
 		socket.on("message", (data) => {
 			if (data.source === "server" && data.cmd === "data") {
+				dispatch({ type: "send_realtime_data", payload: data });
 				collectedData.push(data);
 			}
 		});
 
 		timer = setInterval(() => {
-			console.log("timeout start");
 			dispatch({ type: "send_collected_data", payload: collectedData });
 		}, 3000);
 	};
