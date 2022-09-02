@@ -41,14 +41,14 @@ const reducer = (state, action) => {
 			return {
 				...state,
 				status: "work",
-				data: [...state.data, action.payload],
+				data: [...state.data, ...action.payload],
 			};
 		}
 
 		case "send_collected_data": {
 			return {
 				...state,
-				collectedData: [...state.collectedData, action.payload],
+				collectedData: [...state.collectedData, ...action.payload],
 				data: [],
 			};
 		}
@@ -65,7 +65,7 @@ const reducer = (state, action) => {
 export const useExperiment = () => {
 	const [state, dispatch] = useReducer(reducer, initialState);
 
-	//	let timer;
+	let timer;
 
 	const startInterval = () => {
 		let collectedData = [];
@@ -81,31 +81,24 @@ export const useExperiment = () => {
 		}, 3000);
 	};
 
-	const stopInterval = () => {
-		console.log("timeout end");
-		clearInterval(timer);
-	};
-
 	useEffect(() => {
 		if (state.isSending) {
 			performRequest();
 			startInterval();
 		} else {
 			stopRequest();
-			stopInterval();
 		}
+		return () => clearInterval(timer);
 	}, [state.isSending]);
 
 	const performRequest = useCallback(() => {
 		socket.emit("message", { cmd: "test:start", source: "client" });
 		dispatch({ type: "request_start" });
-		//console.log("Test started");
 	});
 
 	const stopRequest = useCallback(() => {
 		socket.emit("message", { cmd: "test:stop", source: "client" });
 		dispatch({ type: "request_stop" });
-		//console.log("Test stopped");
 	});
 
 	const toggleRequest = useCallback(
