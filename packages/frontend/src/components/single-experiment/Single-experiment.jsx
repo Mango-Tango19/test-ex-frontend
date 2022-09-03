@@ -53,7 +53,7 @@ const SingleExperiment = () => {
 				<ItemWrapper
 					message={<Item>Логи данных</Item>}
 					component={<Item>
-						<LogsTable data={realtimeData}/>
+						<LogsTable realtimeData={realtimeData} collectedData={collectedData}/>
 					</Item>}
 				/>
 			</Grid>
