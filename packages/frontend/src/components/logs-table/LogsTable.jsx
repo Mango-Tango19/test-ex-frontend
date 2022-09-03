@@ -13,7 +13,7 @@ const LogsTable = ({ data }) => {
 	}
 
 	const rows = data.map((item) => {
-		return createData(item.source, item.payload.value, item.payload.timestamp);
+		return createData(item.source, item.payload.value, new Date(item.payload.timestamp).toLocaleTimeString());
 	});
 
 	return (

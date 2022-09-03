@@ -5,8 +5,9 @@ import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import { useExperiment } from "./useExperiment";
 import LogsTable from "../logs-table/LogsTable";
+import DataChart from "../chart/DataChart";
 
-import TableData from "../table/TableData";
+//import TableData from "../table/TableData";
 
 const Item = styled(Paper)(({ theme }) => ({
 	...theme.typography.body2,
@@ -15,16 +16,13 @@ const Item = styled(Paper)(({ theme }) => ({
 	overflowX: "scroll",
 	overflowY: "scroll",
 	maxHeight: "250px",
-	minHeight: "250px",
+	minHeight: "300px",
 }));
 
 const SingleExperiment = () => {
 	const { state, toggleRequest } = useExperiment();
 
 	const { isSending, collectedData, realtimeData } = state;
-
-	console.log({ realtimeData });
-	console.log({ collectedData });
 
 	const handleClick = () => {
 		toggleRequest();
@@ -46,7 +44,7 @@ const SingleExperiment = () => {
 					message={<Item>Таблица</Item>}
 					component={
 						<Item>
-							<TableData data={collectedData} />
+							{/* <TableData data={collectedData} /> */}
 						</Item>
 					}
 				/>
@@ -63,7 +61,9 @@ const SingleExperiment = () => {
 			<Grid xs={12} item>
 				<ItemWrapper
 					message={<Item>График</Item>}
-					component={<Item>Component</Item>}
+					component={<Item>
+						<DataChart realtimeData={realtimeData} collectedData={collectedData}/>
+					</Item>}
 				/>
 			</Grid>
 

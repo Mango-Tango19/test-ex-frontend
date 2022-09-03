@@ -39,7 +39,7 @@ const reducer = (state, action) => {
 		case "send_collected_data": {
 			return {
 				...state,
-				collectedData: action.payload,
+				collectedData: [...state.collectedData, action.payload],
 			};
 		}
 
@@ -65,17 +65,18 @@ export const useExperiment = () => {
 	let timer;
 
 	const startInterval = () => {
-		let collectedData = [];
+		let realtimeData = [];
 		socket.on("message", (data) => {
 			if (data.source === "server" && data.cmd === "data") {
 				dispatch({ type: "send_realtime_data", payload: data });
-				collectedData.push(data);
+				realtimeData.push(data);
 			}
 		});
 
 		timer = setInterval(() => {
-			dispatch({ type: "send_collected_data", payload: collectedData });
-		}, 3000);
+			const newData = realtimeData.pop();
+			dispatch({ type: "send_collected_data", payload: newData });
+		}, 5000);
 	};
 
 	useEffect(() => {
