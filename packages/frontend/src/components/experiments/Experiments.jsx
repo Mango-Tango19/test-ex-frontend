@@ -73,8 +73,6 @@ const Experiments = () => {
 	};
 
 	const handleSearch = (term) => {
-  
-		
 		if (term.length === 0) {
 			return experiments;
 		}

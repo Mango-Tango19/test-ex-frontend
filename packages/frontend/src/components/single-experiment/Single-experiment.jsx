@@ -4,10 +4,8 @@ import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import { useExperiment } from "./useExperiment";
-import LogsTable from "../logs-table/LogsTable";
 import DataChart from "../chart/DataChart";
-
-//import TableData from "../table/TableData";
+import TableData from "../table/TableData";
 
 const Item = styled(Paper)(({ theme }) => ({
 	...theme.typography.body2,
@@ -44,20 +42,11 @@ const SingleExperiment = () => {
 					message={<Item>Таблица</Item>}
 					component={
 						<Item>
-							{/* <TableData data={collectedData} /> */}
+							<TableData data={collectedData} />
 						</Item>
 					}
 				/>
 			</Grid>
-			<Grid xs={12} md={6} item>
-				<ItemWrapper
-					message={<Item>Логи данных</Item>}
-					component={<Item>
-						<LogsTable realtimeData={realtimeData} collectedData={collectedData}/>
-					</Item>}
-				/>
-			</Grid>
-
 			<Grid xs={12} item>
 				<ItemWrapper
 					message={<Item>График</Item>}
